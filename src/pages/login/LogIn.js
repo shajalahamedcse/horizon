@@ -1,6 +1,8 @@
 import React , {Component} from 'react';
-import { Button, Segment,Form,Grid,Header,Image,Message} from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
+import { Button, Segment,Form,Grid,Header} from 'semantic-ui-react';
+import login from './actions';
+
 
 class LogIn extends Component{
 
@@ -28,7 +30,8 @@ class LogIn extends Component{
 
     handleSubmit = event => {
         event.preventDefault();
-        console.log("Submitted");
+        console.log(this.state);
+        login(this.state);
     };
 
     render() {
@@ -38,19 +41,23 @@ class LogIn extends Component{
                     <Header as='h2' color='blue' textAlign='center'>
                         Log-in to your account
                     </Header>
-                    <Form size='large'>
+                    <Form size='small'>
                         <Segment >
                             <Form.Input
                                 fluid
                                 icon='user'
                                 iconPosition='left'
-                                placeholder='E-mail address' />
+                                placeholder='E-mail address'
+                                id='email'
+                                onChange={this.handleChange}
+                            />
                             <Form.Input
                                 fluid
                                 icon='lock'
                                 iconPosition='left'
                                 placeholder='Password'
                                 type='password'
+                                id='password'
                                 onChange={this.handleChange}
                             />
 
@@ -65,8 +72,6 @@ class LogIn extends Component{
 
         );
     }
-
-
 }
 
 export default LogIn;
