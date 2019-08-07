@@ -1,7 +1,7 @@
 import React , {Component} from 'react';
 import 'semantic-ui-css/semantic.min.css';
 import { Button, Segment,Form,Grid,Header} from 'semantic-ui-react';
-import login from './actions';
+import login from './auth';
 
 
 class LogIn extends Component{
@@ -16,11 +16,12 @@ class LogIn extends Component{
         };
         this.validateForm = this.validateForm.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.validateForm = this.validateForm.bind(this);
     }
 
-    validateForm() {
+    validateForm = ()=> {
         return this.state.email.length > 0 && this.state.password.length > 0;
-    }
+    };
 
     handleChange = event => {
         this.setState({
@@ -38,7 +39,7 @@ class LogIn extends Component{
         return(
             <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
                 <Grid.Column style={{ maxWidth: 450 }}>
-                    <Header as='h2' color='blue' textAlign='center'>
+                    <Header as='h2' color='red' textAlign='center'>
                         Log-in to your account
                     </Header>
                     <Form size='small'>
@@ -61,7 +62,7 @@ class LogIn extends Component{
                                 onChange={this.handleChange}
                             />
 
-                            <Button color='blue' fluid size='large' onClick={this.handleSubmit}>
+                            <Button color='red' fluid size='large' onClick={this.handleSubmit}>
                                 Login
                             </Button>
                         </Segment>
