@@ -1,76 +1,91 @@
-import React , {Component} from 'react';
+import React, {Component} from 'react';
+import {Button, Container, Form, Grid, Header, Segment,Card} from "semantic-ui-react";
 import 'semantic-ui-css/semantic.min.css';
-import { Button, Segment,Form,Grid,Header} from 'semantic-ui-react';
-import login from './auth';
-
+import LogInApi from '../../api/authApi';
+import { Redirect} from "react-router-dom";
 
 class LogIn extends Component{
-
 
     constructor(props){
         super(props);
 
         this.state = {
-            email: "",
-            password: ""
+            formLoading: false,
+            email: '',
+            password: '',
+            error: false,
+            errorMessage: '',
+            loggedIn: false
         };
-        this.validateForm = this.validateForm.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.validateForm = this.validateForm.bind(this);
+
+        this.handleChange = (event, {name,value}) =>{
+
+            this.setState({
+                [name]: value
+            })
+        };
+
+        this.onFormSubmit = ()=>{
+            const data = {
+                email : this.state.email,
+                password: this.state.password
+            };
+            //console.log(data);
+            this.setState({formLoading: false});
+            LogInApi.userLogin(data, this.formSubmitCallBack);
+        };
+
+        this.formSubmitCallBack = (apiResponse) =>{
+            //console.log(apiResponse);
+            this.setState({formLoading:false});
+            if(apiResponse.error){
+                console.log(apiResponse.error);
+            }else{
+                this.setState({loggedIn: true});
+            }
+
+        };
+
     }
 
-    validateForm = ()=> {
-        return this.state.email.length > 0 && this.state.password.length > 0;
-    };
-
-    handleChange = event => {
-        this.setState({
-            [event.target.id]: event.target.value
-        });
-    };
-
-    handleSubmit = event => {
-        event.preventDefault();
-        console.log(this.state);
-        login(this.state);
-    };
-
-    render() {
+    render(){
+        const {email,password,error,errorMessage,loggedIn} = this.state ;
         return(
-            <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
-                <Grid.Column style={{ maxWidth: 450 }}>
-                    <Header as='h2' color='red' textAlign='center'>
-                        Log-in to your account
-                    </Header>
-                    <Form size='small'>
-                        <Segment >
-                            <Form.Input
-                                fluid
-                                icon='user'
-                                iconPosition='left'
-                                placeholder='E-mail address'
-                                id='email'
-                                onChange={this.handleChange}
-                            />
-                            <Form.Input
-                                fluid
-                                icon='lock'
-                                iconPosition='left'
-                                placeholder='Password'
-                                type='password'
-                                id='password'
-                                onChange={this.handleChange}
-                            />
+            loggedIn ?
+                <Redirect to={"/console/overview"}/> :
+                (
+                    <Grid textAlign='center'  verticalAlign='middle'>
+                        <Grid.Column style={{ maxWidth: 450 }}>
 
-                            <Button color='red' fluid size='large' onClick={this.handleSubmit}>
-                                Login
-                            </Button>
-                        </Segment>
-                    </Form>
+                        <Header as={"h1"} textAlign={"center"} color="blue" style={{paddingTop: 100}}>Login</Header>
+                        {
+                            error ?
+                                <Segment inverted color='red' textAlign={"center"}>
+                                    {errorMessage}
+                                </Segment>
+                                : null
+                        }
 
-                </Grid.Column>
-            </Grid>
+                            <Form size={"large"} loading={this.state.formLoading} onSubmit={this.onFormSubmit}>
+                                <Form.Input required label='Email' name={"email"} value={email}
+                                            fluid
+                                            icon="user"
+                                            iconPosition='left'
+                                            placeholder='Enter Your Email'
+                                            onChange={this.handleChange} style={{width: 400}}/>
+                                <Form.Input required type="password" label='Password' name={"password"} value={password}
+                                            fluid
+                                            icon="lock"
+                                            iconPosition='left'
+                                            placeholder="Enter Password" onChange={this.handleChange} style={{width: 400}}/>
+                                <Button fluid color="blue">Login</Button>
 
+                            </Form>
+
+                        </Grid.Column>
+                    </Grid>
+
+        )
         );
     }
 }

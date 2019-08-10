@@ -1,6 +1,6 @@
 import axios from "axios";
-
-const AUTH_BASE_URL = "http://103.248.13.91:5000";
+import { parseURLPrefix } from '../commons/commons';
+const AUTH_BASE_URL = "/identity";
 const USER_TOKEN_URL ="/v3/auth/tokens";
 
 
@@ -8,14 +8,15 @@ class AuthApi {
 
     static userLogin = (data, callback) =>{
 
-        const url = USER_TOKEN_URL;
+        const url =AUTH_BASE_URL+USER_TOKEN_URL;
         let apiResponse = {response: null, error: false, msg: ''};
-        let unscopedToken = fetchUnscopedToken(url,data, apiResponse,callback);
+        fetchUnscopedToken(url,data, apiResponse,callback);
 
     }
 }
 
-// Get temporary Token
+//-------------------Get temporary Token-------------------------
+
 const fetchUnscopedToken = (url,data,apiResponse,callback) => {
     const auth = {
         "auth": {
@@ -59,6 +60,10 @@ const fetchUnscopedToken = (url,data,apiResponse,callback) => {
             }
         )
 };
+//--------------------------------------------------------
+
+
+//--------------Get own projects---------------------------
 
 const getOwnProjects = (apiResponse,token,callback) => {
     const userId = apiResponse.response.data.token.user['id'];
@@ -67,7 +72,8 @@ const getOwnProjects = (apiResponse,token,callback) => {
             "X-Auth-Token": token
         }
     };
-    axios.get('/v3/users/'+userId+'/projects' , header)
+    const url = AUTH_BASE_URL+ '/v3/users/'+userId+'/projects';
+    axios.get(url , header)
         .then(response => {
             apiResponse.response=response;
             fetchScopedToken(apiResponse,token,callback);
@@ -84,9 +90,13 @@ const getOwnProjects = (apiResponse,token,callback) => {
         )
 };
 
+//-------------------------------------------------------
+
+
+//----------- Fetch Scoped Token -------------------------
 const fetchScopedToken = (apiResponse,unScopedToken,callback)=> {
 
-    console.log(apiResponse.response.data.projects[0].id);
+    //console.log(apiResponse.response.data.projects[0].id);
     const auth = {
         "auth": {
             "identity": {
@@ -110,17 +120,25 @@ const fetchScopedToken = (apiResponse,unScopedToken,callback)=> {
             "Content-Type": "application/json"
         }
     };
-
-    axios.post('/v3/auth/tokens', auth, config)
+    const url = AUTH_BASE_URL + USER_TOKEN_URL;
+    axios.post(url, auth, config)
         .then(
             response =>{
                 //console.log(response);
+                let urlPrefix = parseURLPrefix(response.data);
+                localStorage.setItem('urlPrefix',JSON.stringify(urlPrefix));
+                localStorage.setItem('projectID', response.data.token.project.id);
+                localStorage.setItem('scopedToken',response.headers['x-subject-token']);
+                localStorage.setItem('expires_at', response.data.token.expires_at);
                 apiResponse.response=response;
+
                 callback(apiResponse);
             }
         )
         .catch(
-
+            err =>{
+                console.log(err);
+            }
         )
 };
 
