@@ -1,0 +1,47 @@
+import React, { Component } from "react";
+import axios from "axios";
+
+class Servers extends Component {
+  state = {
+    servers: [],
+    loading: false
+  };
+
+  async componentDidMount() {
+    this.setState({ loading: true });
+    const scopedToken = localStorage.getItem("scopedToken");
+    const header = {
+      headers: {
+        "X-Auth-Token": scopedToken
+      }
+    };
+    const proxyurl = "https://cors-anywhere.herokuapp.com/";
+    const url = "http://103.248.13.91:8774/v2.1/servers";
+    const request = await axios.get(proxyurl + url, header);
+    this.setState({ servers: request.data.servers, loading: true });
+  }
+  render() {
+    return (
+      <div className="container">
+        <h2>Servers</h2>
+        <div className="ui relaxed divided list">
+          {this.state.loading ? (
+            this.state.servers.map(server => (
+              <div key="{server.id}" className="item">
+                <i className="large github middle aligned icon" />
+                <div className="content">
+                  <a className="header">Server Name: {server.name}</a>
+                  <div className="description">Server Id: {server.id}</div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <h2>No data found</h2>
+          )}
+        </div>
+      </div>
+    );
+  }
+}
+
+export default Servers;
