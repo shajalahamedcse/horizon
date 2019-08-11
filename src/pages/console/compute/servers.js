@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Spinner from "../header/Spinner";
 import axios from "axios";
 
 class Servers extends Component {
@@ -18,15 +19,16 @@ class Servers extends Component {
     const proxyurl = "https://cors-anywhere.herokuapp.com/";
     const url = "http://103.248.13.91:8774/v2.1/servers";
     const request = await axios.get(proxyurl + url, header);
-    this.setState({ servers: request.data.servers, loading: true });
+    this.setState({ servers: request.data.servers, loading: false });
   }
   render() {
-    return (
-      <div className="container">
-        <h2>Servers</h2>
-        <div className="ui relaxed divided list">
-          {this.state.loading ? (
-            this.state.servers.map(server => (
+    if (this.state.loading === true) return <Spinner />;
+    else {
+      return (
+        <div className="container">
+          <h2>Servers</h2>
+          <div className="ui relaxed divided list">
+            {this.state.servers.map(server => (
               <div key="{server.id}" className="item">
                 <i className="large github middle aligned icon" />
                 <div className="content">
@@ -34,13 +36,11 @@ class Servers extends Component {
                   <div className="description">Server Id: {server.id}</div>
                 </div>
               </div>
-            ))
-          ) : (
-            <h2>No data found</h2>
-          )}
+            ))}
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
 
