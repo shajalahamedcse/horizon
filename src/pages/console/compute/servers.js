@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Spinner from "../header/Spinner";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 class Servers extends Component {
@@ -32,7 +33,12 @@ class Servers extends Component {
               <div key="{server.id}" className="item">
                 <i className="large github middle aligned icon" />
                 <div className="content">
-                  <a className="header">Server Name: {server.name}</a>
+                  <Link
+                    to={`/console/overview/details/${server.name}`}
+                    className="header"
+                  >
+                    Server Name: {server.name}
+                  </Link>
                   <div className="description">Server Id: {server.id}</div>
                 </div>
               </div>
