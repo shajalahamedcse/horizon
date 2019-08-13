@@ -27,7 +27,6 @@ class Servers extends Component {
     else {
       return (
         <div className="container">
-          <h2>Servers</h2>
           <div className="ui relaxed divided list">
             {this.state.servers.map(server => (
               <div key="{server.id}" className="item">
