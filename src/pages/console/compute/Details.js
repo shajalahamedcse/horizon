@@ -33,11 +33,15 @@ class Details extends Component {
         <div>
           {this.state.serverInfo.map(server => (
             <div>
-              <h2>Dyno Details of : {server.id}</h2>
+              <h2>Instance Details of : {server.id}</h2>
               <p>Server Name: {server.name}</p>
               <p>Status: {server.status}</p>
-              <p>Vcpus: {server.flavor.vcpus}</p>
-              <p>Availability Zone: {server.availability_zone}</p>
+              <p>Host: {server["OS-EXT-SRV-ATTR:host"]}</p>
+              <p>Availability Zone: {server["OS-EXT-AZ:availability_zone"]}</p>
+              <p>Instance Name: {server["OS-EXT-SRV-ATTR:instance_name"]}</p>
+              <p>VM State: {server["OS-EXT-STS:vm_state"]}</p>
+              <p>Launched At: {server["OS-SRV-USG:launched_at"]}</p>
+
               <p>Tenant Id: {server.tenant_id}</p>
               <p>Created At: {server.created}</p>
               <p>Updated At: {server.updated}</p>
