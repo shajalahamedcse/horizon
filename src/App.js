@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import UserLoginPage from "./pages/login/LogIn";
 import { Route, Switch, Link } from "react-router-dom";
 import Console from "./pages/console/index";
+import KeyPair from "./pages/key/KeyPair";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       />
       <Route exact path={"/login"} component={UserLoginPage} />
       <Route exact path={"/console/overview"} component={Console} />
+      <Route exact path={"/console/key"} component={KeyPair}/>
     </Switch>
   );
 }
