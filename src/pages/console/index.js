@@ -6,11 +6,22 @@ import Details from "./compute/Details";
 import CreateInstance from "./compute/CreateInstance";
 import { Button, Card } from "semantic-ui-react";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
+import Modals from "./compute/modal/Modal";
 
 class Console extends Component {
   constructor(props) {
     super(props);
+    this.state = { open: false };
+    this.updateStateOpen = this.updateStateOpen.bind(this);
   }
+
+  updateStateOpen() {
+    this.setState({ open: true });
+  }
+
+  modalClose = () => {
+    this.setState({ open: false });
+  };
 
   render() {
     return (
@@ -29,6 +40,22 @@ class Console extends Component {
                         <p>Create Instance</p>
                       </Button>
                     </Link>
+
+                    <Button
+                      onClick={this.updateStateOpen}
+                      className="positive ui button"
+                    >
+                      <p>Launch Instance</p>
+                    </Button>
+
+                    {this.state.open ? (
+                      <Modals
+                        opens={this.state.open}
+                        modalClose={this.modalClose}
+                      />
+                    ) : (
+                      ""
+                    )}
                   </div>
                   <hr />
                   <h2>Servers</h2>
