@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Spinner from "../header/Spinner";
+import { Button, Grid, GridColumn } from "semantic-ui-react";
 
 class Details extends Component {
   state = {
@@ -30,9 +31,11 @@ class Details extends Component {
     if (this.state.loading === true) return <Spinner />;
     else {
       return (
+        <Grid>
+        <Grid.Column width={12}>
         <div>
           {this.state.serverInfo.map(server => (
-            <div>
+            <div key={server.id}>
               <h2>Instance Details of : {server.id}</h2>
               <p>Server Name: {server.name}</p>
               <p>Status: {server.status}</p>
@@ -48,6 +51,13 @@ class Details extends Component {
             </div>
           ))}
         </div>
+        </Grid.Column>
+        <Grid.Column width={4}>
+            <div>
+                
+            </div>
+        </Grid.Column>
+        </Grid>
       );
     }
   }

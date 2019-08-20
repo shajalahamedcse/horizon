@@ -5,7 +5,7 @@ import TopNav from "./header/TopNav";
 import Servers from "./compute/servers";
 import Details from "./compute/Details";
 import CreateInstance from "./compute/CreateInstance";
-import { Button, Grid } from "semantic-ui-react";
+import { Button, Grid, GridColumn } from "semantic-ui-react";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import Modals from "./compute/modal/Modal";
 
@@ -33,26 +33,34 @@ class Console extends Component {
           <Grid.Column width={4}>
           <MenuBar />
           </Grid.Column>
-          <Grid.Column stretched width={12}></Grid.Column>
+          <Grid.Column stretched width={12}>
           <Switch>
             <Route
               exact
               path="/console/overview"
               render={props => (
                 <Fragment>
-                  <div>
-                    <Link to="/console/overview/createinstance">
-                      <Button className="positive ui button">
-                        <p>Create Instance</p>
+                <Grid>
+                  <Grid.Column width={8}> <h2>Instances</h2> </Grid.Column>
+                  <Grid.Column width={8}> <Button
+                          size="tiny"
+                          onClick={this.updateStateOpen}
+                          className="ui right floated button"
+                        >
+                          <p>Launch new Instance</p>
                       </Button>
-                    </Link>
-
-                    <Button
-                      onClick={this.updateStateOpen}
-                      className="positive ui button"
-                    >
-                      <p>Launch Instance</p>
-                    </Button>
+                  </Grid.Column>
+                  </Grid>
+                  <div>
+                  {
+                    // <Link to="/console/overview/createinstance">
+                    //   <Button className="positive ui button">
+                    //     <p>Create Instance</p>
+                    //   </Button>
+                    // </Link>
+              }
+                    <hr/>
+                    
 
                     {this.state.open ? (
                       <Modals
@@ -64,7 +72,7 @@ class Console extends Component {
                     )}
                   </div>
                   <hr />
-                  <h2>Servers</h2>
+                  
                   <Servers />
                 </Fragment>
               )}
@@ -80,6 +88,7 @@ class Console extends Component {
               component={CreateInstance}
             />
           </Switch>
+          </Grid.Column>
           </Grid>
         </div>
       </Router>

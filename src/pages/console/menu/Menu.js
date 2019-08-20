@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
-import { Dropdown, Menu } from 'semantic-ui-react'
+import React, { Component } from 'react';
+import { Dropdown, Menu } from 'semantic-ui-react';
+import { Link } from "react-router-dom";
 
 export default class MenuExampleVerticalDropdown extends Component {
-  state = { activeItem: 'account' }
+  state = { activeItem: '' }
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
@@ -23,7 +24,7 @@ export default class MenuExampleVerticalDropdown extends Component {
         />
         <Dropdown item text='Compute'>
           <Dropdown.Menu>
-            <Dropdown.Item>Instances</Dropdown.Item>
+            <Dropdown.Item><Link to="/console/overview">Instances</Link></Dropdown.Item>
             <Dropdown.Item>Images</Dropdown.Item>
             <Dropdown.Item>Key Pairs</Dropdown.Item>
           </Dropdown.Menu>
