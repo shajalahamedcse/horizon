@@ -30,13 +30,13 @@ class Servers extends Component {
           <div className="ui relaxed divided list">
             {this.state.servers.map(server => (
               <div key="{server.id}" className="item">
-                <i className="large github middle aligned icon" />
+                <i className="large server middle aligned icon" />
                 <div className="content">
                   <Link
                     to={`/console/overview/details/${server.name}`}
                     className="header"
                   >
-                    Server Name: {server.name}
+                    {server.name}
                   </Link>
                   <div className="description">Server Id: {server.id}</div>
                 </div>

@@ -1,10 +1,11 @@
 import React, { Fragment, Component } from "react";
 import { Route, Link } from "react-router-dom";
+import MenuBar from "./menu/Menu";
 import TopNav from "./header/TopNav";
 import Servers from "./compute/servers";
 import Details from "./compute/Details";
 import CreateInstance from "./compute/CreateInstance";
-import { Button, Card } from "semantic-ui-react";
+import { Button, Grid } from "semantic-ui-react";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import Modals from "./compute/modal/Modal";
 
@@ -28,6 +29,11 @@ class Console extends Component {
       <Router>
         <div>
           <TopNav />
+          <Grid>
+          <Grid.Column width={4}>
+          <MenuBar />
+          </Grid.Column>
+          <Grid.Column stretched width={12}></Grid.Column>
           <Switch>
             <Route
               exact
@@ -74,6 +80,7 @@ class Console extends Component {
               component={CreateInstance}
             />
           </Switch>
+          </Grid>
         </div>
       </Router>
     );

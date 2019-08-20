@@ -41,10 +41,10 @@ class Details extends Component {
               <p>Instance Name: {server["OS-EXT-SRV-ATTR:instance_name"]}</p>
               <p>VM State: {server["OS-EXT-STS:vm_state"]}</p>
               <p>Launched At: {server["OS-SRV-USG:launched_at"]}</p>
-
               <p>Tenant Id: {server.tenant_id}</p>
               <p>Created At: {server.created}</p>
               <p>Updated At: {server.updated}</p>
+              <p>Server IP: {Object.keys(server["addresses"]).map((key)=> server["addresses"][key]["0"].addr)}</p>
             </div>
           ))}
         </div>
