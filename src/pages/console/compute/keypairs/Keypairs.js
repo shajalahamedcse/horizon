@@ -2,19 +2,28 @@ import React, { Component } from "react";
 import Spinner from "../../header/Spinner";
 import { Link } from "react-router-dom";
 import { Grid, Button } from "semantic-ui-react";
+import KeyPairModal from "../modal/KeyPairModal";
 import axios from "axios";
 
 class Keypairs extends Component {
   state = {
     keypairs: [],
-    loading: false
+    loading: false,
+    modalOpen: false,
+    keyName: ''
   };
 
   handleButtonClick = (e, data) => {
+      this.setState({keyName: data.name, modalOpen: true});
         console.log(data.name);
   }
 
-  async componentDidMount() {
+  modalClose = () => {
+      this.setState({modalOpen: false});
+      this.getKeyPairData();
+  }
+
+  async getKeyPairData () {
     this.setState({ loading: true });
     const scopedToken = localStorage.getItem("scopedToken");
     const header = {
@@ -27,12 +36,18 @@ class Keypairs extends Component {
     const request = await axios.get(proxyurl + url, header);
     this.setState({ keypairs: request.data.keypairs, loading: false });
   }
+
+  componentDidMount() {
+      this.getKeyPairData = this.getKeyPairData.bind(this);
+    this.getKeyPairData();
+  }
   render() {
     if (this.state.loading === true) return <Spinner />;
     else {
       return (
         <div className="container">
             <h1>Key Pairs</h1>
+            {this.state.modalOpen ? <KeyPairModal opens={this.state.modalOpen} modalClose={this.modalClose} keyName={this.state.keyName} /> : ''}
           <div className="ui relaxed divided list">
             { this.state.keypairs.map(keypair => (    
               <div key={keypair['keypair'].name} className="item">
