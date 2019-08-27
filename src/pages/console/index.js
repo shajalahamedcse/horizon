@@ -8,6 +8,8 @@ import CreateInstance from "./compute/CreateInstance";
 import { Button, Grid, GridColumn } from "semantic-ui-react";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import Modals from "./compute/modal/Modal";
+import Keypairs from "./compute/keypairs/Keypairs";
+import KeyDetails from "./compute/keypairs/KeyDetails";
 
 class Console extends Component {
   constructor(props) {
@@ -81,6 +83,16 @@ class Console extends Component {
             <Route
               path="/console/overview/details/:dynoName"
               component={Details}
+            />
+
+            <Route
+              path="/console/overview/keypairs"
+              component={Keypairs}
+            />
+
+            <Route
+              path="/console/overview/keypairs/details/:keyId"
+              component={KeyDetails}
             />
 
             <Route
