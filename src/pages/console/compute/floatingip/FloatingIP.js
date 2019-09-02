@@ -3,6 +3,7 @@ import Spinner from "../../header/Spinner";
 import { Link } from "react-router-dom";
 import { Grid, Button, Form, Input } from "semantic-ui-react";
 import CreateFloatingIP from "../modal/CreateFloatingIP";
+import AssociateFloatingIP from "../modal/AssociateFloatingIP";
 import axios from "axios";
 
 class FloatingIP extends Component {
@@ -10,6 +11,7 @@ class FloatingIP extends Component {
     floatingips: [],
     loading: false,
     modalOpen: false,
+    associateModalOpen: false,
     newKeyPairModal: false,
     keyName: ''
   };
@@ -19,8 +21,13 @@ class FloatingIP extends Component {
         console.log(data.name);
   }
 
+  handleAssociateClick = (e, data) => {
+    this.setState({keyName: data.name, associateModalOpen: true});
+      console.log(data.name);
+  }
+
   modalClose = () => {
-      this.setState({modalOpen: false, newKeyPairModal: false });
+      this.setState({modalOpen: false, newKeyPairModal: false, associateModalOpen: false });
       this.getKeyPairData();
   }
 
@@ -66,6 +73,7 @@ class FloatingIP extends Component {
           <hr />
             {this.state.modalOpen ? <CreateFloatingIP opens={this.state.modalOpen} modalClose={this.modalClose} keyName={this.state.keyName} /> : ''}
             {this.state.newKeyPairModal ? <CreateFloatingIP opens={this.state.newKeyPairModal} modalClose={this.modalClose} /> : ''}
+            {this.state.associateModalOpen ? <AssociateFloatingIP keyName={this.state.keyName} opens={this.state.associateModalOpen} modalClose={this.modalClose} /> : ''}
           <div className="ui relaxed divided list">
             { this.state.floatingips.map(ip => (    
               <div key={ip.id} className="item">
@@ -85,7 +93,9 @@ class FloatingIP extends Component {
                 </Grid.Column>
                 <Grid.Column width={4}>
                     <div>
-                    <Button name={ip.id} floated='right' size='mini' onClick={this.handleButtonClick} negative>Delete floating IP</Button>
+                    <span>
+                    <Button name={ip.id} floated='center' size='mini' onClick={this.handleAssociateClick}>Associate</Button></span>
+                    <Button name={ip.id} floated='center' size='mini' onClick={this.handleButtonClick} negative>Delete floating IP</Button>
                     </div>
                 </Grid.Column>
             </Grid>
