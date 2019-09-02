@@ -8,6 +8,9 @@ import CreateInstance from "./compute/CreateInstance";
 import { Button, Grid, GridColumn } from "semantic-ui-react";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import Modals from "./compute/modal/Modal";
+import Keypairs from "./compute/keypairs/Keypairs";
+import KeyDetails from "./compute/keypairs/KeyDetails";
+import FloatingIP from "./compute/floatingip/FloatingIP";
 
 class Console extends Component {
   constructor(props) {
@@ -84,9 +87,25 @@ class Console extends Component {
             />
 
             <Route
+              path="/console/overview/keypairs"
+              component={Keypairs}
+            />
+
+            <Route
+              path="/console/overview/keypairs/details/:keyId"
+              component={KeyDetails}
+            />
+
+            <Route
               path="/console/overview/createinstance"
               component={CreateInstance}
             />
+
+            <Route
+              path="/console/overview/floatingip"
+              component={FloatingIP}
+            />
+
           </Switch>
           </Grid.Column>
           </Grid>

@@ -26,7 +26,7 @@ export default class MenuExampleVerticalDropdown extends Component {
           <Dropdown.Menu>
             <Dropdown.Item><Link to="/console/overview">Instances</Link></Dropdown.Item>
             <Dropdown.Item>Images</Dropdown.Item>
-            <Dropdown.Item>Key Pairs</Dropdown.Item>
+            <Dropdown.Item><Link to="/console/overview/keypairs">Key Pairs</Link></Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
         <Dropdown item text='Volumes'>
@@ -43,7 +43,7 @@ export default class MenuExampleVerticalDropdown extends Component {
             <Dropdown.Item>Routers</Dropdown.Item>
             <Dropdown.Item>Security Groups</Dropdown.Item>
             <Dropdown.Item>Load Balancers</Dropdown.Item>
-            <Dropdown.Item>Floating IPs</Dropdown.Item>
+            <Dropdown.Item><Link to="/console/overview/floatingip">Floating IPs</Link></Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </Menu>
